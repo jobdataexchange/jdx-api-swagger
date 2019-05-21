@@ -448,14 +448,6 @@ components:
                   type: array
                   items:
                     $ref: '#/components/schemas/framework'
-                  example: [
-                   {
-                    "name": "ONET Skills",
-                    "description": "ONET Skills",
-                    "identifier": "4aee8089-2ea6-4167-b39b-381102d29c74",
-                    "uri": "https://www.onetcenter.org/dl_files/database/db_23_2_excel/Skills.xlsx"
-                   }
-                  ]
                 occupation:
                   type: array
                   items:
@@ -464,14 +456,7 @@ components:
                   type: array
                   items:
                     $ref: '#/components/schemas/framework'
-                  example: [
-                   {
-                    "name": "NAICS",
-                    "description": "North American Industrial Classification Sytsem",
-                    "identifier": "4aee8089-2ea6-4167-b39b-381102d29c74",
-                    "uri": "https://www.census.gov/eos/www/naics/2017NAICS/2017_NAICS_Manual.pdf"
-                   }
-                  ]
+                    
     frameworkSelectionResponse:
       $ref: '#/components/schemas/response'
 
@@ -666,24 +651,11 @@ components:
       description: a standard framework
       type: object
       properties:
-        name:
-          type: string
-          maxLength: 1024
-          example: "SOC"
-        description:
-          type: string
-          maxLength: 1024
-          example: Standardized Occupation Code, for use in the US
-        identifier:
+        frameworkId:
           description: A JDX numerical identifier for this framework
           type: string
           format: uuid
           example:  "4aee8089-2ea6-4167-b39b-381102d29c74"
-        uri:
-          description: A URI to a file specifying the framework
-          type: string
-          format: uri
-          example: https://www.bls.gov/soc/2018/soc_2018_manual.pdf
           
     place:
       description: A fixed physical location
