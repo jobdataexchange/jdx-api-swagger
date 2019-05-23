@@ -455,76 +455,9 @@ components:
         #     $ref: '#/components/schemas/scoredRecommendation'
 
     matchTableResponse:
-      # example: >-
-      #   {
-      #     "pipelineId": "asdf",
-      #     "timestamp": "asdf",
-      #     "matchTable": [
-      #         {
-      #             "substatementId": "1fa85f64-5717-4562-b3fc-2c963f66afa6",
-      #             "substatement": "Can perform test driven development",
-      #             "matches": [
-      #                 {
-      #                     "recommendationId": "2fa85f64-5717-4562-b3fc-2c963f66afa6",
-      #                     "name": "what is this for?",
-      #                     "description": "Performs TDD",
-      #                     "definedTermSet": "Standard Occupational Classification system",
-      #                     "termCode": "19-1131.00",
-      #                     "value": "0.9"
-      #                 },
-      #                 {
-      #                     "recommendationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      #                     "name": "???",
-      #                     "description": "Run a daycare",
-      #                     "definedTermSet": "Standard Occupational Classification system",
-      #                     "termCode": "19-1131.00",
-      #                     "value": "0.1"
-      #                 }
-      #             ]
-      #         },
-      #         {
-      #             "substatementId": "4fa85f64-5717-4562-b3fc-2c963f66afa5",
-      #             "substatement": "Can perform test driven development",
-      #             "matches": [
-      #                 {
-      #                     "recommendationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      #                     "name": "???",
-      #                     "description": "Run a daycare",
-      #                     "definedTermSet": "Standard Occupational Classification system",
-      #                     "termCode": "19-1131.00",
-      #                     "value": "0.9"
-      #                 },
-      #                 {
-      #                     "recommendationId": "2fa85f64-5717-4562-b3fc-2c963f66afa6",
-      #                     "name": "what is this for?",
-      #                     "description": "Performs TDD",
-      #                     "definedTermSet": "Standard Occupational Classification system",
-      #                     "termCode": "19-1131.00",
-      #                     "value": "0.1"
-      #                 }
-      #             ]
-      #         }
-      #     ] 
-      #   }      
       allOf:
-        # note: in the Swagger UI schema matchTableRow is not displayed, UI bug :(
         - $ref: '#/components/schemas/matchTableRows'
         - $ref: '#/components/schemas/response'
-
-
-    jsonLD:
-      type: object
-      properties:
-        jsonld:
-          type: string
-          maxLength: 262144
-          example: >-
-            {
-                "@id": "http://store.example.com/",
-                "@type": "Store",
-                "name": "Links Bike Shop",
-                "description": "The most \"linked\" bike store on earth!"
-            }
 
     matchTableRows:
       properties:
@@ -532,20 +465,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/substatements'
-        # - type: object
-        #   properties:
-        #     propertyUUID:
-        #       description: UUID referring to a node in the json-ld
-        #       type: string
-        #       format: uuid
-        #     substatement:
-        #       type: string
-        #       minLength: 3
-        #       maxLength: 1024
-        #     recommendationUUID:
-        #       description: UUID referring to a particular scoredRecommendation
-        #       type: string
-        #       format: uuid
 
     substatements:
       properties:
@@ -580,8 +499,6 @@ components:
               value:
                 type: string
                 example: "0.9"
-              
-          
 
     scoreRequest:
       allOf:
