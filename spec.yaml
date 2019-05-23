@@ -1,12 +1,8 @@
 openapi: 3.0.0
-servers: 
-# Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/KwameRobinson/JDX-reference-backend-application/1.0.0
 info:
   description: |-
     This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
-  version: "1.0.6"
+  version: "1.0.7"
   title: JDX reference application API
   termsOfService: 'https://www.uschamberfoundation.org/workforce-development/JDX'
   contact:
@@ -322,10 +318,6 @@ components:
     response:
       type: object
       properties:
-        # message:
-        #   type: string
-        #   maxLength: 1024
-        #   example: Your request has succeeded
         pipelineID:
           description: An identifier for this jdx reference application session of converting a raw job description 
           type: string
@@ -414,12 +406,12 @@ components:
               #   "termCode": "541512",
               #   "definedTermSet": "NAICS"
               # }
-            responsibilties:
-              description: An optional ad hoc list of responsibilties for this job description.
-              example: ['walking the dog', 'writing code', 'attending meetings']
-              type: array
-              items: 
-                type: string
+            # responsibilties:
+            #   description: An optional ad hoc list of responsibilties for this job description.
+            #   example: ['walking the dog', 'writing code', 'attending meetings']
+            #   type: array
+            #   items: 
+            #     type: string
 
     jobDescriptionContextResponse:
       $ref: '#/components/schemas/response'
@@ -439,7 +431,7 @@ components:
                 occupation:
                   type: array
                   items:
-                    $ref: '#/components/schemas/framework'        
+                    $ref: '#/components/schemas/framework'
                 industry:
                   type: array
                   items:
@@ -463,36 +455,61 @@ components:
         #     $ref: '#/components/schemas/scoredRecommendation'
 
     matchTableResponse:
-      example: >-
-        {
-          "message": "Your request has succeeded",
-          "pipelineID": "824b40ae-2e95-4823-8c61-330865b10bd7",
-          "timestamp": "2017-07-21T17:32:28Z",
-          "jsonld": {"jdx:competency":
-                      [
-                        {
-                          "@type": "AnnotatedDefinedTerm"
-                          "propertyUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-                        }
-                      ]
-                    },
-          "matchTableRows": [ 
-                    {
-                      "name": "Bike Shop Sellers",
-                      "description": "The cool people that sell bikes.",
-                      "termCode": "19-1131.00",
-                      "definedTermSet": "Standard Occupational Classification system",
-                      "propertyUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                      "recommendationUUID": "7fa85f64-5717-4562-b3fc-2c963f66afa6",       
-                      "substatement": "The most \"linked\" bike store on earth!"
-                    }
-              ]
-        }      
+      # example: >-
+      #   {
+      #     "pipelineId": "asdf",
+      #     "timestamp": "asdf",
+      #     "matchTable": [
+      #         {
+      #             "substatementId": "1fa85f64-5717-4562-b3fc-2c963f66afa6",
+      #             "substatement": "Can perform test driven development",
+      #             "matches": [
+      #                 {
+      #                     "recommendationId": "2fa85f64-5717-4562-b3fc-2c963f66afa6",
+      #                     "name": "what is this for?",
+      #                     "description": "Performs TDD",
+      #                     "definedTermSet": "Standard Occupational Classification system",
+      #                     "termCode": "19-1131.00",
+      #                     "value": "0.9"
+      #                 },
+      #                 {
+      #                     "recommendationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      #                     "name": "???",
+      #                     "description": "Run a daycare",
+      #                     "definedTermSet": "Standard Occupational Classification system",
+      #                     "termCode": "19-1131.00",
+      #                     "value": "0.1"
+      #                 }
+      #             ]
+      #         },
+      #         {
+      #             "substatementId": "4fa85f64-5717-4562-b3fc-2c963f66afa5",
+      #             "substatement": "Can perform test driven development",
+      #             "matches": [
+      #                 {
+      #                     "recommendationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      #                     "name": "???",
+      #                     "description": "Run a daycare",
+      #                     "definedTermSet": "Standard Occupational Classification system",
+      #                     "termCode": "19-1131.00",
+      #                     "value": "0.9"
+      #                 },
+      #                 {
+      #                     "recommendationId": "2fa85f64-5717-4562-b3fc-2c963f66afa6",
+      #                     "name": "what is this for?",
+      #                     "description": "Performs TDD",
+      #                     "definedTermSet": "Standard Occupational Classification system",
+      #                     "termCode": "19-1131.00",
+      #                     "value": "0.1"
+      #                 }
+      #             ]
+      #         }
+      #     ] 
+      #   }      
       allOf:
         # note: in the Swagger UI schema matchTableRow is not displayed, UI bug :(
         - $ref: '#/components/schemas/matchTableRows'
         - $ref: '#/components/schemas/response'
-        - $ref: '#/components/schemas/jsonLD'        
 
 
     jsonLD:
@@ -510,24 +527,61 @@ components:
             }
 
     matchTableRows:
-      type: array
-      items:
-        allOf:
-          - $ref: '#/components/schemas/annotatedDefinedTerm'
-          - type: object
+      properties:
+        matchTable:
+          type: array
+          items:
+            $ref: '#/components/schemas/substatements'
+        # - type: object
+        #   properties:
+        #     propertyUUID:
+        #       description: UUID referring to a node in the json-ld
+        #       type: string
+        #       format: uuid
+        #     substatement:
+        #       type: string
+        #       minLength: 3
+        #       maxLength: 1024
+        #     recommendationUUID:
+        #       description: UUID referring to a particular scoredRecommendation
+        #       type: string
+        #       format: uuid
+
+    substatements:
+      properties:
+        substatementId:
+          description: UUID referring to
+          type: string
+          format: uuid
+          example: "1fa85f64-5717-4562-b3fc-2c963f66afa6"
+        substatement:
+          description: this is the job description substatment text
+          type: string
+          example: Can perform test driven development
+        matches:
+          type: array
+          items:
             properties:
-              propertyUUID:
-                description: UUID referring to a node in the json-ld
+              recommendationId:
                 type: string
-                format: uuid
-              substatement:
+                example: "2fa85f64-5717-4562-b3fc-2c963f66afa6"
+              name:
                 type: string
-                minLength: 3
-                maxLength: 1024
-              recommendationUUID:
-                description: UUID referring to a particular scoredRecommendation
+                example: what is this for?
+              descrtiption:
                 type: string
-                format: uuid
+                example: Performs TDD
+              definedTermSet:
+                type: string
+                example: Standard Occupational Classification system
+              termCode:
+                type: string
+                example: "19-1131.00"
+              value:
+                type: string
+                example: "0.9"
+              
+          
 
     scoreRequest:
       allOf:
