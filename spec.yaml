@@ -6,7 +6,7 @@ servers:
 info:
   description: |-
     This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
-  version: "1.0.4"
+  version: "1.0.6"
   title: JDX reference application API
   termsOfService: 'https://www.uschamberfoundation.org/workforce-development/JDX'
   contact:
@@ -58,13 +58,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/jobDescriptionContextResponse'
-              example:
-                {
-                  "message": "Your request has succeeded",
-                  "pipelineID": "824b40ae-2e95-4823-8c61-330865b10bd7",
-                  "timestamp": "2017-07-21T17:32:28Z",
-                }
-
         '422':
           $ref: '#/components/responses/422'
         '400':
@@ -117,13 +110,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/frameworkSelectionResponse'
-              example:
-                {
-                  "message": "Your request has succeeded",
-                  "pipelineID": "824b40ae-2e95-4823-8c61-330865b10bd7",
-                  "timestamp": "2017-07-21T17:32:28Z",
-                }
-
         '422':
           $ref: '#/components/responses/422'
         '400':
@@ -224,12 +210,6 @@ paths:
           description: The user actions response object
           content:
             application/json:
-              example: 
-                {
-                  "message": "Your request has succeeded",
-                  "pipelineID": "824b40ae-2e95-4823-8c61-330865b10bd7",
-                  "timestamp": "2017-07-21T17:32:28Z",
-                }              
               schema:
                 $ref: '#/components/schemas/userActionResponse'
         '422':
@@ -239,7 +219,15 @@ paths:
         '415':
           $ref: '#/components/responses/415'
         '503':
-          $ref: '#/components/responses/503'                
+          $ref: '#/components/responses/503'      
+  
+  /health:
+    get:
+      summary: Health Check
+      description: The healthcheck endpoint can be used to check if the API is up. If the API is running it will return a 200 OK response.
+      responses:
+        201:
+          description: Health Check report
 
 components:
   responses:
@@ -334,10 +322,10 @@ components:
     response:
       type: object
       properties:
-        message:
-          type: string
-          maxLength: 1024
-          example: Your request has succeeded
+        # message:
+        #   type: string
+        #   maxLength: 1024
+        #   example: Your request has succeeded
         pipelineID:
           description: An identifier for this jdx reference application session of converting a raw job description 
           type: string
@@ -464,9 +452,15 @@ components:
     frameworkRecommendationResponse:
       allOf:
         - $ref: '#/components/schemas/response'
-        - type: array
-          items:
-            $ref: '#/components/schemas/scoredRecommendation'
+        - type: object
+          properties:
+            frameworkRecommendations:
+              type: array
+              items:
+                $ref: '#/components/schemas/scoredRecommendation'
+        # - type: array
+        #   items:
+        #     $ref: '#/components/schemas/scoredRecommendation'
 
     matchTableResponse:
       example: >-
@@ -478,7 +472,7 @@ components:
                       [
                         {
                           "@type": "AnnotatedDefinedTerm"
-                          "propertyUUID": 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                          "propertyUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                         }
                       ]
                     },
@@ -606,9 +600,13 @@ components:
     userActionRequest:
       allOf:
         - $ref: '#/components/schemas/request'
-        - type: array
-          items:
-            $ref: '#/components/schemas/userAction'
+        - type: object
+          properties:
+            userActions:
+              type: array
+              items:
+                $ref: '#/components/schemas/userAction'
+
     userActionResponse:
       $ref: '#/components/schemas/response'
 
