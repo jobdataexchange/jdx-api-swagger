@@ -1,12 +1,11 @@
 openapi: 3.0.0
-servers: 
-# Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/KwameRobinson/JDX-reference-backend-application/1.0.0
+servers:
+  - url: https://jdx-api.brighthive.net
+  #- url: https://virtserver.swaggerhub.com/loganripplinger/JDX-reference-application-real/0.0.1
 info:
   description: |-
     This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
-  version: "1.0.6"
+  version: "0.0.2"
   title: JDX reference application API
   termsOfService: 'https://www.uschamberfoundation.org/workforce-development/JDX'
   contact:
@@ -19,9 +18,9 @@ security:
 paths:
   /upload-job-description-file:
     post:
-      summary: Upload the raw job description.
+      summary: Upload a raw job description file.
       requestBody:
-        description: The user uploads the raw job description in a given format for the server to process into utf-8 text.
+        description: Upload a raw job description in one of the given formats for the server to begin the automatic competency translation service.
         content:
           multipart/form-data:
             schema:
@@ -120,7 +119,7 @@ paths:
           $ref: '#/components/responses/503'
 
   /match-table:
-    get:
+    post:
       summary: Get the match table associated with the provided `pipelineID`
       parameters:
         - in: path
@@ -322,10 +321,6 @@ components:
     response:
       type: object
       properties:
-        # message:
-        #   type: string
-        #   maxLength: 1024
-        #   example: Your request has succeeded
         pipelineID:
           description: An identifier for this jdx reference application session of converting a raw job description 
           type: string
@@ -414,12 +409,12 @@ components:
               #   "termCode": "541512",
               #   "definedTermSet": "NAICS"
               # }
-            responsibilties:
-              description: An optional ad hoc list of responsibilties for this job description.
-              example: ['walking the dog', 'writing code', 'attending meetings']
-              type: array
-              items: 
-                type: string
+            # responsibilties:
+            #   description: An optional ad hoc list of responsibilties for this job description.
+            #   example: ['walking the dog', 'writing code', 'attending meetings']
+            #   type: array
+            #   items: 
+            #     type: string
 
     jobDescriptionContextResponse:
       $ref: '#/components/schemas/response'
@@ -439,7 +434,7 @@ components:
                 occupation:
                   type: array
                   items:
-                    $ref: '#/components/schemas/framework'        
+                    $ref: '#/components/schemas/framework'
                 industry:
                   type: array
                   items:
@@ -463,71 +458,50 @@ components:
         #     $ref: '#/components/schemas/scoredRecommendation'
 
     matchTableResponse:
-      example: >-
-        {
-          "message": "Your request has succeeded",
-          "pipelineID": "824b40ae-2e95-4823-8c61-330865b10bd7",
-          "timestamp": "2017-07-21T17:32:28Z",
-          "jsonld": {"jdx:competency":
-                      [
-                        {
-                          "@type": "AnnotatedDefinedTerm"
-                          "propertyUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-                        }
-                      ]
-                    },
-          "matchTableRows": [ 
-                    {
-                      "name": "Bike Shop Sellers",
-                      "description": "The cool people that sell bikes.",
-                      "termCode": "19-1131.00",
-                      "definedTermSet": "Standard Occupational Classification system",
-                      "propertyUUID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                      "recommendationUUID": "7fa85f64-5717-4562-b3fc-2c963f66afa6",       
-                      "substatement": "The most \"linked\" bike store on earth!"
-                    }
-              ]
-        }      
       allOf:
-        # note: in the Swagger UI schema matchTableRow is not displayed, UI bug :(
         - $ref: '#/components/schemas/matchTableRows'
         - $ref: '#/components/schemas/response'
-        - $ref: '#/components/schemas/jsonLD'        
-
-
-    jsonLD:
-      type: object
-      properties:
-        jsonld:
-          type: string
-          maxLength: 262144
-          example: >-
-            {
-                "@id": "http://store.example.com/",
-                "@type": "Store",
-                "name": "Links Bike Shop",
-                "description": "The most \"linked\" bike store on earth!"
-            }
 
     matchTableRows:
-      type: array
-      items:
-        allOf:
-          - $ref: '#/components/schemas/annotatedDefinedTerm'
-          - type: object
+      properties:
+        matchTable:
+          type: array
+          items:
+            $ref: '#/components/schemas/substatements'
+
+    substatements:
+      properties:
+        substatementId:
+          description: UUID referring to
+          type: string
+          format: uuid
+          example: "1fa85f64-5717-4562-b3fc-2c963f66afa6"
+        substatement:
+          description: this is the job description substatment text
+          type: string
+          example: Can perform test driven development
+        matches:
+          type: array
+          items:
             properties:
-              propertyUUID:
-                description: UUID referring to a node in the json-ld
+              recommendationId:
                 type: string
-                format: uuid
-              substatement:
+                example: "2fa85f64-5717-4562-b3fc-2c963f66afa6"
+              name:
                 type: string
-                minLength: 3
-                maxLength: 1024
-              recommendationUUID:
-                description: UUID referring to a particular scoredRecommendation
+                example: what is this for?
+              descrtiption:
                 type: string
-                format: uuid
+                example: Performs TDD
+              definedTermSet:
+                type: string
+                example: Standard Occupational Classification system
+              termCode:
+                type: string
+                example: "19-1131.00"
+              value:
+                type: string
+                example: "0.9"
 
     scoreRequest:
       allOf:
@@ -602,10 +576,45 @@ components:
         - $ref: '#/components/schemas/request'
         - type: object
           properties:
-            userActions:
+            matchTableSelections:
               type: array
               items:
-                $ref: '#/components/schemas/userAction'
+                properties:
+                  substatementId:
+                    description: UUID referring to
+                    type: string
+                    format: uuid
+                    example: "1fa85f64-5717-4562-b3fc-2c963f66afa6"
+                  substatement:
+                    description: this is the job description substatment text
+                    type: string
+                    example: Can perform test driven development
+                  selection:
+                    type: object
+                    properties:
+                      recommendationId:
+                        type: string
+                        example: "2fa85f64-5717-4562-b3fc-2c963f66afa6"
+                      name:
+                        type: string
+                        example: what is this for?
+                      descrtiption:
+                        type: string
+                        example: Performs TDD
+                      definedTermSet:
+                        type: string
+                        example: Standard Occupational Classification system
+                      termCode:
+                        type: string
+                        example: "19-1131.00"
+                      value:
+                        type: string
+                        example: "0.9"
+
+            # userActions:
+            #   type: array
+            #   items:
+            #     $ref: '#/components/schemas/userAction'
 
     userActionResponse:
       $ref: '#/components/schemas/response'
