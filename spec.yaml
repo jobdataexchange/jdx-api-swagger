@@ -151,8 +151,8 @@ paths:
         '503':
           $ref: '#/components/responses/503'
 
-  /scored-recommendations:
-    get:
+  /get-scored-recommendations:
+    post:
       summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Get a list of `scoredRecommendations` associated with the match table"
       requestBody:
         description: Get framework-recommendations for a given Pipeline ID.
@@ -175,6 +175,7 @@ paths:
           $ref: '#/components/responses/415'
         '503':
           $ref: '#/components/responses/503'                
+  /set-scored-recommendations:
     post:
       summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Obtain a recommendation for a specific user replacement"
       requestBody:
