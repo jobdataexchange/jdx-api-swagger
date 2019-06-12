@@ -399,24 +399,26 @@ components:
         - type: object
           properties:
             frameworks:
-              type: object
-              properties:
-                competency:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/framework'
-                occupation:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/framework'
-                industry:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/framework'
-                    
+              $ref: '#/components/schemas/frameworks'
+
+    frameworks:
+      type: object
+      properties:
+        competency:
+          type: array
+          items:
+            $ref: '#/components/schemas/framework'
+        occupation:
+          type: array
+          items:
+            $ref: '#/components/schemas/framework'
+        industry:
+          type: array
+          items:
+            $ref: '#/components/schemas/framework'
+
     frameworkSelectionResponse:
       $ref: '#/components/schemas/response'
-
 
     frameworkRecommendationResponse:
       allOf:
