@@ -129,14 +129,12 @@ paths:
   /match-table:
     post:
       summary: Get the match table associated with the provided `pipelineID`
-      parameters:
-        - in: path
-          name: pipelineID
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: Pipeline ID
+      requestBody:
+        description: Get framework-recommendations for a given Pipeline ID.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
       responses:
         '200':
           description: Provides a match table with `uuid` references along with a json-ld object. The json-ld object contains `uuid`'s that reference into the match table, for instance, containing a list of possble competencies that the user should be asked to choose among, reject or approve one of.
