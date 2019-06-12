@@ -79,14 +79,12 @@ paths:
   /framework-recommendations:
     post:
       summary: Get framework recommendations based on the uploaded job descripton and context.
-      parameters:
-        - in: path
-          name: pipelineID
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: Pipeline ID
+      requestBody:
+        description: Get framework-recommendations for a given Pipeline ID.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
       responses:
         '200':
           description: Provides a list of frameworks, including competencies, occupation and industries, that the user may choose from (one or more). 
