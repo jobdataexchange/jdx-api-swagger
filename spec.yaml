@@ -154,14 +154,12 @@ paths:
   /scored-recommendations:
     get:
       summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Get a list of `scoredRecommendations` associated with the match table"
-      parameters:
-        - in: path
-          name: pipelineID
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: Pipeline ID
+      requestBody:
+        description: Get framework-recommendations for a given Pipeline ID.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
       responses:
         '200':
           description: Provides a list of recommendations and scores (`scoredRecommendations`) for each `uuid` in the match table.
