@@ -516,6 +516,7 @@ components:
         matches:
           type: array
           items:
+            type: object
             properties:
               recommendationId:
                 type: string
