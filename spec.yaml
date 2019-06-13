@@ -430,13 +430,25 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/previewFields'
+        paragraphs:
+          type: array
+          items:
+            $ref: '#/components/schemas/previewParagraphs'
         
     previewFields:
       type: object
       properties:
         field:
           type: string
-          example: 
+          example: (JobMaster).title
+        paragraph_number:
+          type: integer
+          example: 1
+    
+    previewParagraphs:
+      type: string
+      example: 'Posted on 4/2/2021 18:23:01'
+        
     
     frameworkSelectionRequest:
       allOf:
