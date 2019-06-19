@@ -8,7 +8,7 @@ servers:
 info:
   description: |-
     This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
-  version: "0.0.6"
+  version: "0.0.7"
   title: JDX reference application API
   termsOfService: 'https://www.uschamberfoundation.org/workforce-development/JDX'
   contact:
@@ -159,7 +159,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/request'
+              $ref: '#/components/schemas/matchTableRequest'
       responses:
         '200':
           description: Provides a match table with `uuid` references along with a json-ld object. The json-ld object contains `uuid`'s that reference into the match table, for instance, containing a list of possble competencies that the user should be asked to choose among, reject or approve one of.
@@ -489,7 +489,16 @@ components:
         # - type: array
         #   items:
         #     $ref: '#/components/schemas/scoredRecommendation'
-
+        
+    matchTableRequest:
+      allOf:
+        - $ref: '#/components/schemas/request'
+        - type: object
+          properties:
+            threshold:
+              type: number
+              example: 0.55
+              
     matchTableResponse:
       allOf:
         - $ref: '#/components/schemas/matchTableRows'
@@ -516,6 +525,7 @@ components:
         matches:
           type: array
           items:
+            type: object
             properties:
               recommendationId:
                 type: string
