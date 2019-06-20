@@ -513,7 +513,7 @@ components:
 
     substatements:
       properties:
-        substatementId:
+        substatementID:
           description: UUID referring to
           type: string
           format: uuid
@@ -527,7 +527,7 @@ components:
           items:
             type: object
             properties:
-              recommendationId:
+              recommendationID:
                 type: string
                 example: "2fa85f64-5717-4562-b3fc-2c963f66afa6"
               name:
@@ -623,7 +623,7 @@ components:
               type: array
               items:
                 properties:
-                  substatementId:
+                  substatementID:
                     description: UUID referring to
                     type: string
                     format: uuid
@@ -635,7 +635,7 @@ components:
                   selection:
                     type: object
                     properties:
-                      recommendationId:
+                      recommendationID:
                         type: string
                         example: "2fa85f64-5717-4562-b3fc-2c963f66afa6"
                       name:
@@ -701,7 +701,7 @@ components:
       description: a standard framework
       type: object
       properties:
-        frameworkId:
+        frameworkID:
           description: A JDX numerical identifier for this framework
           type: string
           format: uuid
