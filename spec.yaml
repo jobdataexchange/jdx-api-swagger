@@ -533,7 +533,7 @@ components:
               name:
                 type: string
                 example: what is this for?
-              descrtiption:
+              description:
                 type: string
                 example: Performs TDD
               definedTermSet:
