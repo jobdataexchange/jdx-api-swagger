@@ -4,7 +4,7 @@ servers:
     description: Live API
   - url: https://virtserver.swaggerhub.com/loganripplinger/JDX-reference-application-real/0.0.1
     description: Server running off of swagger spec that returns mock examples
-  
+
 info:
   description: |-
     This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
@@ -25,11 +25,11 @@ paths:
       requestBody:
         description: |
           Upload a raw job description in one of the given formats for the server to begin the automatic competency translation service.
-        
+
           Allowed file types
           ___
           DOCX, DOC - Microsoft Word file format (version 2012+)
-          
+
           TXT - Text file format
         content:
           multipart/form-data:
@@ -48,7 +48,7 @@ paths:
           description: Validation error
         '500':
           description: Internal server error
-          
+
   /preview:
     post:
       summary: Get preview of job description with tagged matches.
@@ -73,7 +73,7 @@ paths:
           $ref: '#/components/responses/415'
         '503':
           $ref: '#/components/responses/503'
-        
+
   /upload-job-description-context:
     post:
       summary: Provide job description context (e.g metadata) on the job description
@@ -112,7 +112,7 @@ paths:
               $ref: '#/components/schemas/request'
       responses:
         '200':
-          description: Provides a list of frameworks, including competencies, occupation and industries, that the user may choose from (one or more). 
+          description: Provides a list of frameworks, including competencies, occupation and industries, that the user may choose from (one or more).
           content:
             application/json:
               schema:
@@ -199,7 +199,7 @@ paths:
         '415':
           $ref: '#/components/responses/415'
         '503':
-          $ref: '#/components/responses/503'                
+          $ref: '#/components/responses/503'
   /set-scored-recommendations:
     post:
       summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Obtain a recommendation for a specific user replacement"
@@ -248,7 +248,7 @@ paths:
         '415':
           $ref: '#/components/responses/415'
         '503':
-          $ref: '#/components/responses/503'      
+          $ref: '#/components/responses/503'
   /health:
     get:
       summary: Health Check
@@ -262,7 +262,7 @@ paths:
                 title: healthResponse
                 type: object
                 properties:
-                  api: 
+                  api:
                     type: integer
                     example: 200
 components:
@@ -291,16 +291,16 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/serviceUnavailableError'
-  
+
   # securitySchemes:
-  #   oAuthNoScopes: 
+  #   oAuthNoScopes:
   #     type: oauth2
-  #     flows: 
+  #     flows:
   #       authorizationCode:
   #         authorizationUrl: 'https://brighthive-test.auth0.com/authorize'
   #         tokenUrl: 'https://brighthive-test.auth0.com/oauth/token'
   #         scopes: {}
-          
+
   schemas:
     serviceUnavailableError:
       type: object
@@ -323,7 +323,7 @@ components:
           type: string
           maxLength: 1024
           example: Malformed syntax, `{` is missing on line 102
-        
+
     validationError:
       type: object
       properties:
@@ -339,7 +339,7 @@ components:
           example: 1
         validationErrors:
           type: array
-          items: 
+          items:
             type: object
             properties:
               field:
@@ -360,7 +360,7 @@ components:
       type: object
       properties:
         pipelineID:
-          description: An identifier for this jdx reference application session of converting a raw job description 
+          description: An identifier for this jdx reference application session of converting a raw job description
           type: string
           format: uuid
           example: "824b40ae-2e95-4823-8c61-330865b10bd7"
@@ -372,12 +372,12 @@ components:
 
     rawJobDescriptionRequest:
       # see: https://swagger.io/docs/specification/describing-request-body/file-upload/
-        type: object
-        properties:
-          file:
-            description: The file to upload
-            type: string
-            format: binary
+      type: object
+      properties:
+        file:
+          description: The file to upload
+          type: string
+          format: binary
 
     rawJobDescriptionResponse:
       allOf:
@@ -399,7 +399,7 @@ components:
 
     jobDescriptionContextRequest:
       allOf:
-        - $ref: '#/components/schemas/request'    
+        - $ref: '#/components/schemas/request'
         - type: object
           properties:
             primaryEconomicActivity:
@@ -411,18 +411,18 @@ components:
             occupationCategory:
               $ref: '#/components/schemas/annotatedDefinedTerm'
             industryCategory:
-              $ref: '#/components/schemas/annotatedDefinedTerm'        
+              $ref: '#/components/schemas/annotatedDefinedTerm'
 
     jobDescriptionContextResponse:
       allOf:
         - $ref: '#/components/schemas/response'
         - $ref: '#/components/schemas/jobDescriptionContextRequest'
-    
+
     previewResponse:
       allOf:
         - $ref: '#/components/schemas/response'
         - $ref: '#/components/schemas/previewObject'
-        
+
     previewObject:
       type: object
       properties:
@@ -434,7 +434,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/previewParagraphs'
-        
+
     previewFields:
       type: object
       properties:
@@ -444,12 +444,12 @@ components:
         paragraph_number:
           type: integer
           example: 1
-    
+
     previewParagraphs:
       type: string
       example: 'Posted on 4/2/2021 18:23:01'
-        
-    
+
+
     frameworkSelectionRequest:
       allOf:
         - $ref: '#/components/schemas/request'
@@ -489,7 +489,7 @@ components:
         # - type: array
         #   items:
         #     $ref: '#/components/schemas/scoredRecommendation'
-        
+
     matchTableRequest:
       allOf:
         - $ref: '#/components/schemas/request'
@@ -498,7 +498,7 @@ components:
             threshold:
               type: number
               example: 0.55
-              
+
     matchTableResponse:
       allOf:
         - $ref: '#/components/schemas/matchTableRows'
@@ -533,7 +533,7 @@ components:
               name:
                 type: string
                 example: what is this for?
-              descrtiption:
+              description:
                 type: string
                 example: Performs TDD
               definedTermSet:
@@ -553,9 +553,9 @@ components:
           properties:
             annotatedDefinedTerm:
               $ref: '#/components/schemas/annotatedDefinedTerm'
-      
+
     scoreResponse:
-      $ref: '#/components/schemas/frameworkRecommendationResponse'    
+      $ref: '#/components/schemas/frameworkRecommendationResponse'
 
     scoredRecommendation:
       type: object
@@ -572,7 +572,7 @@ components:
           example: "2017-09-21T17:32:28Z"
         metrics:
           $ref: '#/components/schemas/metrics'
-        
+
     metrics:
       type: object
       properties:
@@ -622,37 +622,42 @@ components:
             matchTableSelections:
               type: array
               items:
-                properties:
-                  substatementId:
-                    description: UUID referring to
-                    type: string
-                    format: uuid
-                    example: "1fa85f64-5717-4562-b3fc-2c963f66afa6"
-                  substatement:
-                    description: this is the job description substatment text
-                    type: string
-                    example: Can perform test driven development
-                  selection:
-                    type: object
-                    properties:
-                      recommendationId:
-                        type: string
-                        example: "2fa85f64-5717-4562-b3fc-2c963f66afa6"
-                      name:
-                        type: string
-                        example: what is this for?
-                      descrtiption:
-                        type: string
-                        example: Performs TDD
-                      definedTermSet:
-                        type: string
-                        example: Standard Occupational Classification system
-                      termCode:
-                        type: string
-                        example: "19-1131.00"
-                      value:
-                        type: string
-                        example: "0.9"
+                $ref: '#/components/schemas/matchTableSelection'
+
+    matchTableSelection:
+      type: object
+      properties:
+        substatementId:
+          description: UUID referring to
+          type: string
+          format: uuid
+          example: "1fa85f64-5717-4562-b3fc-2c963f66afa6"
+        substatement:
+          description: this is the job description substatment text
+          type: string
+          example: Can perform test driven development
+        selection:
+          title: selection
+          type: object
+          properties:
+            recommendationId:
+              type: string
+              example: "2fa85f64-5717-4562-b3fc-2c963f66afa6"
+            name:
+              type: string
+              example: what is this for?
+            description:
+              type: string
+              example: Performs TDD
+            definedTermSet:
+              type: string
+              example: Standard Occupational Classification system
+            termCode:
+              type: string
+              example: "19-1131.00"
+            value:
+              type: string
+              example: "0.9"
 
             # userActions:
             #   type: array
@@ -696,7 +701,7 @@ components:
           description: A defined term set that contains this term.
           type: string
           example: Standard Occupational Classification system
-          
+
     framework:
       description: a standard framework
       type: object
@@ -706,7 +711,7 @@ components:
           type: string
           format: uuid
           example:  "4aee8089-2ea6-4167-b39b-381102d29c74"
-          
+
     place:
       description: A fixed physical location
       type: object
