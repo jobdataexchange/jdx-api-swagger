@@ -8,7 +8,7 @@ servers:
 info:
   description: |-
     This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
-  version: "0.0.8"
+  version: "0.0.9"
   title: JDX reference application API
   termsOfService: 'https://www.uschamberfoundation.org/workforce-development/JDX'
   contact:
@@ -434,6 +434,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/previewParagraphs'
+        autofill:
+          type: object
+          properties:
+            soc:
+              type: string
+              example: "1235"
+            naics:
+              type: string
+              example: "5332"
 
     previewFields:
       type: object
