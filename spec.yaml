@@ -8,7 +8,7 @@ servers:
 info:
   description: |-
     This is a collection of schemas and endpoints for the various JDX, Concentric Sky facing REST endpoints, the schemas define an API contract of sorts between the request and response expectations of the JDX reference application. This API is to be mutually developed by Concentric Sky and BrightHive.
-  version: "0.0.11"
+  version: "0.0.12"
   title: JDX reference application API
   termsOfService: 'https://www.uschamberfoundation.org/workforce-development/JDX'
   contact:
@@ -274,6 +274,33 @@ paths:
           $ref: '#/components/responses/415'
         '503':
           $ref: '#/components/responses/503'
+
+  /generate-job-schema-plus:
+    post:
+      summary: Generate JobSchema+
+      requestBody:
+        description: Generate JobSchema+ from a given pipeline_id
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request'
+      responses:
+        '200':
+          description: JobSchema+ file
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/generateJobSchemaPlusResponse'
+        '422':
+          $ref: '#/components/responses/422'
+        '400':
+          $ref: '#/components/responses/400'
+        '415':
+          $ref: '#/components/responses/415'
+        '503':
+          $ref: '#/components/responses/503'
+          
+          
   /health:
     get:
       summary: Health Check
@@ -593,7 +620,7 @@ components:
 
     pipelineScoreResponse:
       allOf:
-        - $ref: '#/components/schemas/request'
+        - $ref: '#/components/schemas/response'
         - $ref: '#/components/schemas/pipelineScoreObject'
           
     pipelineScoreObject:
@@ -624,6 +651,19 @@ components:
           example: "2017-09-21T17:32:28Z"
         metrics:
           $ref: '#/components/schemas/metrics'
+
+    generateJobSchemaPlusResponse:
+      allOf:
+        - $ref: '#/components/schemas/response'
+        - $ref: '#/components/schemas/jobSchemaPlusFile'
+        
+    jobSchemaPlusFile:
+      type: object
+      properties:
+        jobSchemaPlusFile:
+          type: string
+          format: json
+          example: "{ 'title': 'example job schema plus file' }"
 
     metrics:
       type: object
