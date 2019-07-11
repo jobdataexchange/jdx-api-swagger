@@ -176,22 +176,22 @@ paths:
         '503':
           $ref: '#/components/responses/503'
 
-  /get-scored-recommendations:
+  /get-score:
     post:
-      summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Get a list of `scoredRecommendations` associated with the match table"
+      summary: "Provides a scored based on how much metadata you provide and the quality of that data."
       requestBody:
-        description: Get framework-recommendations for a given Pipeline ID.
+        description: Get score for a given Pipeline ID.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/request'
       responses:
         '200':
-          description: Provides a list of recommendations and scores (`scoredRecommendations`) for each `uuid` in the match table.
+          description: Provides a score for your pipeline work.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/scoreResponse'
+                $ref: '#/components/schemas/pipelineScoreResponse'
         '422':
           $ref: '#/components/responses/422'
         '400':
@@ -200,30 +200,55 @@ paths:
           $ref: '#/components/responses/415'
         '503':
           $ref: '#/components/responses/503'
-  /set-scored-recommendations:
-    post:
-      summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Obtain a recommendation for a specific user replacement"
-      requestBody:
-        description: Contains a user replacement to analyze and provide recommendation for
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/scoreRequest'
-      responses:
-        '200':
-          description: The frameworkRecommendation response object
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/scoreResponse'
-        '422':
-          $ref: '#/components/responses/422'
-        '400':
-          $ref: '#/components/responses/400'
-        '415':
-          $ref: '#/components/responses/415'
-        '503':
-          $ref: '#/components/responses/503'
+          
+  # /get-scored-recommendations:
+  #   post:
+  #     summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Get a list of `scoredRecommendations` associated with the match table"
+  #     requestBody:
+  #       description: Get framework-recommendations for a given Pipeline ID.
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/request'
+  #     responses:
+  #       '200':
+  #         description: Provides a list of recommendations and scores (`scoredRecommendations`) for each `uuid` in the match table.
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/scoreResponse'
+  #       '422':
+  #         $ref: '#/components/responses/422'
+  #       '400':
+  #         $ref: '#/components/responses/400'
+  #       '415':
+  #         $ref: '#/components/responses/415'
+  #       '503':
+  #         $ref: '#/components/responses/503'
+  # /set-scored-recommendations:
+  #   post:
+  #     summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Obtain a recommendation for a specific user replacement"
+  #     requestBody:
+  #       description: Contains a user replacement to analyze and provide recommendation for
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/scoreRequest'
+  #     responses:
+  #       '200':
+  #         description: The frameworkRecommendation response object
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/scoreResponse'
+  #       '422':
+  #         $ref: '#/components/responses/422'
+  #       '400':
+  #         $ref: '#/components/responses/400'
+  #       '415':
+  #         $ref: '#/components/responses/415'
+  #       '503':
+  #         $ref: '#/components/responses/503'
 
   /user-actions:
     post:
@@ -565,6 +590,21 @@ components:
           properties:
             annotatedDefinedTerm:
               $ref: '#/components/schemas/annotatedDefinedTerm'
+
+    pipelineScoreResponse:
+      allOf:
+        - $ref: '#/components/schemas/request'
+        - $ref: '#/components/schemas/pipelineScoreObject'
+          
+    pipelineScoreObject:
+      type: object
+      properties:
+        score:
+          type: string
+          example: "A+"
+        explanation:
+          type: string
+          example: "By not providing a location, search engines cannot index your job posting correctly."
 
     scoreResponse:
       $ref: '#/components/schemas/frameworkRecommendationResponse'
