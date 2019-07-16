@@ -591,10 +591,10 @@ components:
         autofill:
           type: object
           properties:
-            soc:
+            industryCode:
               type: string
               example: "1235"
-            naics:
+            occupationCode:
               type: string
               example: "5332"
 
