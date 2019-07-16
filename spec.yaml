@@ -200,7 +200,7 @@ paths:
           $ref: '#/components/responses/415'
         '503':
           $ref: '#/components/responses/503'
-          
+
   # /get-scored-recommendations:
   #   post:
   #     summary: "[NOT IMPLEMENTED FOR 5/31 PROTOTYPE] Get a list of `scoredRecommendations` associated with the match table"
@@ -299,8 +299,8 @@ paths:
           $ref: '#/components/responses/415'
         '503':
           $ref: '#/components/responses/503'
-          
-          
+
+
   /health:
     get:
       summary: Health Check
@@ -718,7 +718,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/response'
         - $ref: '#/components/schemas/pipelineScoreObject'
-          
+
     pipelineScoreObject:
       type: object
       properties:
@@ -770,7 +770,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/response'
         - $ref: '#/components/schemas/jobSchemaPlusFile'
-        
+
     jobSchemaPlusFile:
       type: object
       properties:
@@ -784,6 +784,8 @@ components:
           properties:
             schema:
               type: array
+              items:
+                type: string
               description: Defines the order the values should be in.
               example: ["title", "competencies"]
             data:
