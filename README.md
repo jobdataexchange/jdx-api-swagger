@@ -15,7 +15,7 @@ https://github.com/brighthive/jdx-api-swagger
 ## Getting a client
 ### Generating your own
 1. Get the swagger spec
-2. Install and run the openapi-generator tool on the swagger spec https://github.com/OpenAPITools/openapi-generator
+2. Install and run the openapi-generator tool on the swagger spec to generate a client in your desired language https://github.com/OpenAPITools/openapi-generator
 
 ### Using a provided client
 Here are the two client libraries we have currently,
